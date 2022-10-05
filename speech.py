@@ -16,7 +16,7 @@ import datetime
 import logging
 import webbrowser
 import subprocess
-
+print("Hello")
 
 class Speech_AI:
     def __init__(self):

@@ -4,8 +4,6 @@ pip install speechrecognition
 
 pip install gtts
 
-pip install pyaudio
-
 pip install playsound==1.2.2
 
 # Voice Commands (We will add more commands in the future)

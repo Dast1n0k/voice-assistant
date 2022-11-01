@@ -20,7 +20,7 @@ def there_exists(terms):
 
 r = sr.Recognizer() # initialise a recogniser
 # listen for audio and convert it to text:
-def record_audio(ask=False):
+def record_audio(ask=''):
     with sr.Microphone() as source: # microphone as source
         if ask:
             speak(ask)
@@ -73,19 +73,40 @@ def respond(voice_data):
         speak(ctime())
 
     # 5: search google
-    if there_exists(["search for"]) and 'youtube' not in voice_data:
-        search_term = voice_data.split("for")[-1]
+    if there_exists(["search"]) and 'youtube' not in voice_data:
+        search_term = record_audio('What do you want to find?')
         url = f"https://google.com/search?q={search_term}"
         webbrowser.get().open(url)
         speak(f'Here is what I found for {search_term} on google')
 
     # 6: search youtube
     if there_exists(["youtube"]):
-        search_term = voice_data.split("for")[-1]
+        search_term = record_audio('What name of video?')
         url = f"https://www.youtube.com/results?search_query={search_term}"
         webbrowser.get().open(url)
         speak(f'Here is what I found for {search_term} on youtube')
 
+    # 8: toss a coin
+    if there_exists(["toss", "flip", "coin"]):
+        moves = ["head", "tails"]
+        cmove = random.choice(moves)
+        speak("The computer chose " + cmove)
+
+    # 9: current location
+    if there_exists(["what is my exact location"]):
+        url = "https://www.google.com/maps/search/Where+am+I+?/"
+        webbrowser.get().open(url)
+        speak("You must be somewhere near here, as per Google maps")
+
+    # 10: find location
+    if there_exists(["find location"]):
+        location = record_audio('What is the location?')
+        url = 'https://www.google.nl/maps/place/' + location
+        webbrowser.get().open(url)
+        speak('Here is the location of ' + location)
+
+
+    #exit
     if there_exists(["exit", "quit", "goodbye", "bye"]):
         speak("you destroyed me")
         exit()

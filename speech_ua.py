@@ -54,11 +54,11 @@ def respond(voice_data):
         speak(greet)
 
     # 2: name
-    if there_exists(["what is your name","what's your name","tell me your name"]):
+    if there_exists(["як тебе звати","як тебе називати","який в тебе всевдонім"]):
         if person_obj.name:
-            speak("my name is Left")
+            speak("Мене звати Лівобережний")
         else:
-            speak("my name is Left. what's your name?")
+            speak("Мене звати Лівобережний. Як тебе звати?")
 
     if there_exists(["мене звати"]):
         person_name = voice_data.split("звати")[-1].strip()
@@ -66,33 +66,32 @@ def respond(voice_data):
         person_obj.setName(person_name) # remember name in person object
 
     # 3: greeting
-    if there_exists(["how are you","how are you doing"]):
-        speak(f"I'm very well, thanks for asking {person_obj.name}")
+    if there_exists(["як ти","що робиш"]):
+        speak(f"В мене все добре, дякую що спитав {person_obj.name}")
 
     # 4: time
-    if there_exists(["what's the time","tell me the time","what time is it"]):
+    if there_exists(["котра година","скажи мені годину","че по времені"]):
         speak(ctime())
 
     # 5: search google
-    if there_exists(["search for"]) and 'youtube' not in voice_data:
-        #search_term = record_audio('What do you want to find?')
-        search_term = voice_data.split("for")[-1]
+    if there_exists(["знайти", "найди", "пошукай", "окей google", "okey google"]) and 'youtube' not in voice_data:
+        search_term = record_audio('Що ти хочешь знайти?')
         url = f"https://google.com/search?q={search_term}"
         webbrowser.get().open(url)
-        speak(f'Here is what I found for {search_term} on google')
+        speak(f'Вот що я знайщов в інтернеті за запитом {search_term} в google')
 
     # 6: search youtube
     if there_exists(["youtube"]):
         search_term = record_audio('What name of video?')
         url = f"https://www.youtube.com/results?search_query={search_term}"
         webbrowser.get().open(url)
-        speak(f'Here is what I found for {search_term} on youtube')
+        speak(f'Вот що я знайшов за запитом {search_term} в youtube')
 
     # 8: toss a coin
-    if there_exists(["flip coin"]):
-        moves = ["head", "tails"]
+    if there_exists(["кинь монетку"]):
+        moves = ["тризуб", "дядько"]
         cmove = random.choice(moves)
-        speak("The computer chose " + cmove)
+        speak("Комп'ютер вибрав " + cmove)
 
     # 9: current location
     if there_exists(["what is my exact location"]):

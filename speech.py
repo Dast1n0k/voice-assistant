@@ -1,197 +1,106 @@
-# Библиотеки распознавания и синтеза речи
-import speech_recognition as sr
-from gtts import gTTS
-
-import pyowm
-# Воспроизведение речи
-import pygame
-from pygame import mixer
-
-mixer.init()
-import datetime
-import os
-import sys
+import speech_recognition as sr # recognise speech
+import playsound # to play an audio file
+from gtts import gTTS # google text to speech
+import random
+from time import ctime # get time details
+import webbrowser # open browser
 import time
-import datetime
-import logging
-import webbrowser
-import subprocess
-print("Hello")
+import os # to remove created audio files
 
-class Speech_AI:
-    def __init__(self):
-        self._recognizer = sr.Recognizer()
-        self._microphone = sr.Microphone()
+class person:
+    name = ''
+    def setName(self, name):
+        self.name = name
 
-        now_time = datetime.datetime.now()
-        self._mp3_name = now_time.strftime("Drop\\%d%m%Y%I%M%S") + ".mp3"
-        self._mp3_nameold = '111'
+def there_exists(terms):
+    for term in terms:
+        if term in voice_data:
+            return True
 
-    def work(self):
-        print("Все закрыли пасточки...")
-
-        with self._microphone as source:
-            self._recognizer.adjust_for_ambient_noise(source)
-
+r = sr.Recognizer() # initialise a recogniser
+# listen for audio and convert it to text:
+def record_audio(ask=False):
+    with sr.Microphone() as source: # microphone as source
+        if ask:
+            speak(ask)
+        audio = r.listen(source)  # listen for the audio via source
+        voice_data = ''
         try:
-            while True:
+            voice_data = r.recognize_google(audio)  # convert audio to text
+        except sr.UnknownValueError: # error: recognizer does not understand
+            speak('I did not get that')
+        except sr.RequestError:
+            speak('Sorry, the service is down') # error: recognizer is not connected
+        print(f">> {voice_data.lower()}") # print what user said
+        return voice_data.lower()
 
-                print("Скажи что - нибудь!")
-                with self._microphone as source:
-                    audio = self._recognizer.listen(source)
-                print("Понял, идет распознавание...")
-                try:
-                    statement = self._recognizer.recognize_google(audio, language="ru_RU")
-                    statement = statement.lower()
+# get string and make a audio file to be played
+def speak(audio_string):
+    tts = gTTS(text=audio_string, lang='en') # text to speech(voice)
+    r = random.randint(1,20000000)
+    audio_file = 'audio' + str(r) + '.mp3'
+    tts.save(audio_file) # save as mp3
+    playsound.playsound(audio_file) # play the audio file
+    print(f"Left: {audio_string}") # print what app said
+    os.remove(audio_file) # remove audio file
 
-                    # Weather
+def respond(voice_data):
+    # 1: greeting
+    if there_exists(['hey','hi','hello']):
+        greetings = [f"hey, how can I help you {person_obj.name}", f"hey, what's up? {person_obj.name}", f"I'm listening {person_obj.name}", f"how can I help you? {person_obj.name}", f"hello {person_obj.name}"]
+        greet = greetings[random.randint(0,len(greetings)-1)]
+        speak(greet)
 
-                    if ((statement.find("узнать") != -1) and (statement.find("погоду") != -1) or (
-                            statement.find("что по погоде") != -1) or (statement.find("как там погода") != -1)):
-                        self.openurl('http://t.me/Pogodasiri_bot', " Введите город на английском языке! ")
+    # 2: name
+    if there_exists(["what is your name","what's your name","tell me your name"]):
+        if person_obj.name:
+            speak("my name is Left")
+        else:
+            speak("my name is Left. what's your name?")
 
-                    # Команды для открытия различных внешних приложений
+    if there_exists(["my name is"]):
+        person_name = voice_data.split("is")[-1].strip()
+        speak(f"okay, i will remember that {person_name}")
+        person_obj.setName(person_name) # remember name in person object
 
-                    if ((statement.find("калькулятор") != -1) or (statement.find("calculator") != -1)):
-                        self.osrun('calc')
+    # 3: greeting
+    if there_exists(["how are you","how are you doing"]):
+        speak(f"I'm very well, thanks for asking {person_obj.name}")
 
-                    if ((statement.find("блокнот") != -1) or (statement.find("notepad") != -1)):
-                        self.osrun('notepad')
-                    if ((statement.find("paint") != -1) or (statement.find("паинт") != -1)):
-                        self.osrun('mspaint')
-                    if ((statement.find("browser") != -1) or (statement.find("браузер") != -1)):
-                        self.openurl('http://google.ru', 'Открываю браузер')
-                    if ((statement.find("steam") != -1) or (statement.find("стим") != -1)):
-                        self.osrun('C:\\Program Files (x86)\\Steam\\Steam.exe')
-                    if ((statement.find("discord") != -1) or (statement.find("дискорд") != -1)):
-                        self.osrun('C:\\Users\\dimab\\AppData\\Local\\Discord\\app-0.0.305\\Discord.exe')
+    # 4: time
+    if there_exists(["what's the time","tell me the time","what time is it"]):
+        time = ctime().split(" ")[3].split(":")[0:2]
+        if time[0] == "00":
+            hours = '12'
+        else:
+            hours = time[0]
+        minutes = time[1]
+        time = f'{hours} {minutes}'
+        speak(time)
 
-                    # Команды для открытия URL в браузере
+    # 5: search google
+    if there_exists(["search for"]) and 'youtube' not in voice_data:
+        search_term = voice_data.split("for")[-1]
+        url = f"https://google.com/search?q={search_term}"
+        webbrowser.get().open(url)
+        speak(f'Here is what I found for {search_term} on google')
 
-                    if (((statement.find("youtube") != -1) or (statement.find("youtub") != -1) or (
-                            statement.find("ютуб") != -1) or (statement.find("you tube") != -1)) and (
-                            statement.find("смотреть") == -1)):
-                        self.openurl('http://youtube.com', 'Открываю херню, куда все заливаю свои видосы')
+    # 6: search youtube
+    if there_exists(["youtube"]):
+        search_term = voice_data.split("for")[-1]
+        url = f"https://www.youtube.com/results?search_query={search_term}"
+        webbrowser.get().open(url)
+        speak(f'Here is what I found for {search_term} on youtube')
 
-                    if (((statement.find("новости") != -1) or (statement.find("новость") != -1) or (
-                            statement.find("на усть") != -1)) and (
-                            (statement.find("youtube") == -1) and (statement.find("youtub") != -1) and (
-                            statement.find("ютуб") == -1) and (statement.find("you tube") == -1))):
-                        self.openurl('https://www.rbc.ua/ukr', 'Посмотри новости!')
-
-                    if ((statement.find("почту") != -1) or (statement.find("gmail") != -1)):
-                        self.openurl('https://mail.google.com/mail/u/0/?tab=wm#inbox/', 'Открываю почту')
-
-                    if ((statement.find("инстаграм") != -1) or (statement.find("инсту") != -1)):
-                        self.openurl('https://www.instagram.com/p/B_5Pt5pHw8b/',
-                                     'Люблю Лерочку, она самая красивая девушка!')
-
-                    # Команды для поиска в сети интернет
-
-                    if ((statement.find("найти") != -1) or (statement.find("поиск") != -1) or (
-                            statement.find("найди") != -1) or (statement.find("дайте") != -1) or (
-                            statement.find("mighty") != -1)):
-                        statement = statement.replace('найди', '')
-                        statement = statement.replace('найти', '')
-                        statement = statement.strip()
-
-                        self.openurl('https://www.google.com/search?q=' + statement, "Я нашла следующую информацию")
-
-                    # Переделать
-                    if ((statement.find("смотреть") != -1) and (
-                            (statement.find("фильм") != -1) or (statement.find("сериал") != -1))):
-                        statement = statement.replace('посмотреть', '')
-                        statement = statement.replace('смотреть', '')
-                        statement = statement.replace('хочу', '')
-                        statement = statement.replace('фильм', '')
-                        statement = statement.replace('сериал', '')
-                        statement = statement.strip()
-                        self.openurl('https://kinoprofi.vip/search/f:' + statement, "Приятного просмотра")
-
-                    if (((statement.find("youtube") != -1) or (statement.find("ютуб") != -1) or (
-                            statement.find("you tube") != -1)) and (statement.find("смотреть") != -1)):
-                        statement = statement.replace('хочу', '')
-                        statement = statement.replace('на ютубе', '')
-                        statement = statement.replace('на ютуб', '')
-                        statement = statement.replace('на youtube', '')
-                        statement = statement.replace('на you tube', '')
-                        statement = statement.replace('на youtub', '')
-                        statement = statement.replace('youtube', '')
-                        statement = statement.replace('ютуб', '')
-                        statement = statement.replace('ютубе', '')
-                        statement = statement.replace('посмотреть', '')
-                        statement = statement.replace('смотреть', '')
-                        statement = statement.strip()
-                        self.openurl('http://www.youtube.com/results?search_query=' + statement,
-                                     'Ищу в той херне, где много видосов')
-
-                    # Music
-                    if ((statement.find("слушать") != -1) and (statement.find("песн") != -1)):
-                        statement = statement.replace('песню', '')
-
-                        statement = statement.replace('песни', '')
-                        statement = statement.replace('песня', '')
-                        statement = statement.replace('песней', '')
-                        statement = statement.replace('послушать', '')
-                        statement = statement.replace('слушать', '')
-                        statement = statement.replace('хочу', '')
-                        statement = statement.strip()
-
-                        self.openurl('https://soundcloud.com/search?q=' + statement, "Устрой дискотеку, братан")
-
-                    # Поддержание диалога
-
-                    if ((statement.find("закройся") != -1) or (statement.find("пока") != -1)):
-                        answer = "Иди нахуй"
-                        self.say(answer)
-
-                        while pygame.mixer.music.get_busy():
-                            time.sleep(0.1)
-                        sys.exit()
-
-                    print("Вы сказали: {}".format(statement))
-
-                except sr.UnknownValueError:
-                    print("Упс! Кажется, я тебя не поняла, повтори еще раз")
-                except sr.RequestError as e:
-                    print("Не могу получить данные от сервиса Google Speech Recognition; {0}".format(e))
-        except KeyboardInterrupt:
-            self._clean_up()
-            print("Пока!")
-
-    def osrun(self, cmd):
-        PIPE = subprocess.PIPE
-        p = subprocess.Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=subprocess.STDOUT)
-
-    def openurl(self, url, ans):
-        webbrowser.open(url)
-        self.say(str(ans))
-        while pygame.mixer.music.get_busy():
-            time.sleep(0.1)
-
-    def say(self, phrase):
-        tts = gTTS(text=phrase, lang="ru")
-        tts.save(self._mp3_name)
-
-        # Play answer
-        mixer.music.load(self._mp3_name)
-        mixer.music.play()
-        if (os.path.exists(self._mp3_nameold)):
-            os.remove(self._mp3_nameold)
-
-        now_time = datetime.datetime.now()
-        self._mp3_nameold = self._mp3_name
-        self._mp3_name = now_time.strftime("Drop\\%d%m%Y%I%M%S") + ".mp3"
-
-    def _clean_up(self):
-        def clean_up():
-            os.remove(self._mp3_name)
+    if there_exists(["exit", "quit", "goodbye", "bye"]):
+        speak("you destroyed me")
+        exit()
 
 
-def main():
-    ai = Speech_AI()
-    ai.work()
+time.sleep(1)
 
+person_obj = person()
+while(1):
+    voice_data = record_audio() # get the voice input
+    respond(voice_data) # respond
 
-main()
-input()

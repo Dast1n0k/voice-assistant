@@ -43,7 +43,7 @@ def speak(audio_string):
     audio_file = 'audio' + str(r) + '.mp3'
     tts.save(audio_file) # save as mp3
     playsound.playsound(audio_file) # play the audio file
-    print(f"Left: {audio_string}") # print what app said
+    print(f"Лівобережний: {audio_string}") # print what app said
     os.remove(audio_file) # remove audio file
 
 def respond(voice_data):
@@ -94,60 +94,61 @@ def respond(voice_data):
         speak("Комп'ютер вибрав " + cmove)
 
     # 9: current location
-    if there_exists(["what is my exact location"]):
+    if there_exists(["де я знаходжуся", "моє місцезнаходження"]):
         url = "https://www.google.com/maps/search/Where+am+I+?/"
         webbrowser.get().open(url)
-        speak("You must be somewhere near here, as per Google maps")
+        speak("ти знаходишся десь поблизу цього місця")
 
     # 10: find location
-    if there_exists(["find location"]):
-        location = record_audio('What is the location?')
+    if there_exists(["знайди місце", "відкрий карту"]):
+        location = record_audio('яке місце ви бажаєте знайти?')
         url = 'https://www.google.com.ua/maps/place/' + location + '/&amp;'
         webbrowser.get().open(url)
-        speak('Here is the location of ' + location)
+        speak('місцезнаходження ' + location + 'знайдено')
 
     # 11: weather
-    if there_exists(["what weather", "what about weather", "weather"]):
-        city = record_audio('Weather in which city?')
+    if there_exists(["яка погода", "що за вікном", "погода"]):
+        city = record_audio('погода в якому місті?')
         try:
-            params = {'q': city, 'units': 'metric', 'lang': 'en', 'appid': '208efe731338ff247c6843161cc807be'}
+            params = {'q': city, 'units': 'metric', 'lang': 'uk', 'appid': '208efe731338ff247c6843161cc807be'}
             response = requests.get(f'https://api.openweathermap.org/data/2.5/weather', params=params)
             if not response:
                 raise
             w = response.json()
-            speak(f"In city {city} {w['weather'][0]['description']} {round(w['main']['temp'])} degrees")
+            speak(f"В місті {city} {w['weather'][0]['description']} {round(w['main']['temp'])} градусів")
 
         except:
-            speak('Error with API')
+            speak('помилка API')
 
     # 12:schedule for group in kpi
-    if there_exists(["show my schedule", "my schedule", "my timetable"]):
-             ticket = ''
-             group = record_audio('What a group')
-             group = "".join(group.rsplit())
-             groups = {"po11": "744888e7-4f92-46ba-9330-ac56dfcfb65b", "pk11": "cdf72602-9bc3-46ee-b7f0-048b51def7c5",
-                       "pg11": "b4f442dc-8641-4045-a740-b1fc038909a1", "pm11": "d41dad85-dff4-446b-965c-ca8f5547a014",
-                       "pb11": "a6c846da-0241-48f3-92c8-44d5aeef7aea", "pb12": "60dffbed-e1ef-494d-a735-7a5e1cef3c52"}
-             for key, value in groups.items():
-                if key == group:
-                    ticket = value
-             url = "https://schedule.kpi.ua/?groupId=" + ticket
-             webbrowser.get().open(url)
-             speak("Don't be late for the first lesson")
+    if there_exists(["покажи мій розклад", "мій розклад", "покажи розклад"]):
+        ticket = ''
+        group = record_audio('Яка група?')
+        group = "".join(group.rsplit())
+        groups = {"po11": "744888e7-4f92-46ba-9330-ac56dfcfb65b", "pk11": "cdf72602-9bc3-46ee-b7f0-048b51def7c5",
+                  "pg11": "b4f442dc-8641-4045-a740-b1fc038909a1", "pm11": "d41dad85-dff4-446b-965c-ca8f5547a014",
+                  "pb11": "a6c846da-0241-48f3-92c8-44d5aeef7aea", "pb12": "60dffbed-e1ef-494d-a735-7a5e1cef3c52"}
+        for key, value in groups.items():
+            if key == group:
+                ticket = value
+        url = "https://schedule.kpi.ua/?groupId=" + ticket
+        webbrowser.get().open(url)
+        speak("Не спізнюйся на першу пару!")
 
     # exit
-    if there_exists(["exit", "quit", "goodbye", "bye", "good bye", "close"]):
-        byeings = [f"you destroyed me {person_obj.name}", f"you kill me {person_obj.name}",
-                     f"going offline {person_obj.name}", f"have a nice day {person_obj.name}",
-                     f"goodbye {person_obj.name}"]
+    if there_exists(["вихід", "закрийся", "бувай", "щасливо"]):
+        byeings = [f"ти мене знищуєш {person_obj.name}", f"ти мене вбиваєш {person_obj.name}",
+                   f"перехожу в оффлайн {person_obj.name}", f"Вдалого дня {person_obj.name}",
+                   f"бувай {person_obj.name}"]
         bye = byeings[random.randint(0, len(byeings) - 1)]
         speak(bye)
         exit()
 
+
 time.sleep(1)
 
 person_obj = person()
-while(1):
-    voice_data = record_audio() # get the voice input
-    respond(voice_data) # respond
+while (1):
+    voice_data = record_audio()  # get the voice input
+    respond(voice_data)  # respond
 

@@ -24,4 +24,6 @@ pip install playsound==1.2.2
 
 8.KPI schedule
 
-9.Exit
+10.Remember your name
+
+11.Exit

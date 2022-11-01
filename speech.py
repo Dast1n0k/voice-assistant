@@ -43,7 +43,7 @@ def speak(audio_string):
     audio_file = 'audio' + str(r) + '.mp3'
     tts.save(audio_file) # save as mp3
     playsound.playsound(audio_file) # play the audio file
-    print(f"Left: {audio_string}") # print what app said
+    print(f"Lefty: {audio_string}") # print what app said
     os.remove(audio_file) # remove audio file
 
 def respond(voice_data):
@@ -56,9 +56,9 @@ def respond(voice_data):
     # 2: name
     if there_exists(["what is your name","what's your name","tell me your name"]):
         if person_obj.name:
-            speak("my name is Left")
+            speak("my name is Lefty")
         else:
-            speak("my name is Left. what's your name?")
+            speak("my name is Lefty. what's your name?")
 
     if there_exists(["my name is"]):
         person_name = voice_data.split("is")[-1].strip()

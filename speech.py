@@ -107,12 +107,7 @@ def respond(voice_data):
         webbrowser.get().open(url)
         speak('Here is the location of ' + location)
 
-
-    #exit
-    if there_exists(["exit", "quit", "goodbye", "bye"]):
-        speak("you destroyed me")
-        exit()
-
+    # 11: weather
     if there_exists(["what weather", "what about weather", "weather"]):
         try:
             params = {'q': 'Kiev', 'units': 'metric', 'lang': 'en', 'appid': '208efe731338ff247c6843161cc807be'}
@@ -124,6 +119,11 @@ def respond(voice_data):
 
         except:
             speak('Произошла ошибка при попытке запроса к ресурсу API, проверь код')
+
+    # exit
+    if there_exists(["exit", "quit", "goodbye", "bye"]):
+        speak("you destroyed me")
+        exit()
 
 time.sleep(1)
 

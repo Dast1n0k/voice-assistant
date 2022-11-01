@@ -16,6 +16,8 @@ pip install playsound==1.2.2
 
 3.Search
 
-4.Find Location
+4.Youtube video search
 
-5.Exit
+5.Find Location
+
+6.Exit

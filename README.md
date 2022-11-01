@@ -2,7 +2,7 @@
 
 pip install speechrecognition
 
-pip install pyttsx3
+pip install gtts
 
 pip install pyaudio
 

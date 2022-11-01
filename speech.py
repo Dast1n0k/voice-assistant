@@ -24,8 +24,8 @@ def record_audio(ask=''):
     with sr.Microphone() as source: # microphone as source
         if ask:
             speak(ask)
-        audio = r.listen(source)  # listen for the audio via source
         print("Done Listening")
+        audio = r.listen(source)  # listen for the audio via source
         voice_data = ''
         try:
             voice_data = r.recognize_google(audio)  # convert audio to text
@@ -137,8 +137,12 @@ def respond(voice_data):
          speak("Don't be late for the first lesson")
 
     # exit
-    if there_exists(["exit", "quit", "goodbye", "bye"]):
-        speak("you destroyed me")
+    if there_exists(["exit", "quit", "goodbye", "bye", "good bye", "close"]):
+        byeings = [f"you destroyed me {person_obj.name}", f"you kill me {person_obj.name}",
+                     f"going offline {person_obj.name}", f"have a nice day {person_obj.name}",
+                     f"goodbye {person_obj.name}"]
+        bye = byeings[random.randint(0, len(byeings) - 1)]
+        speak(bye)
         exit()
 
 time.sleep(1)

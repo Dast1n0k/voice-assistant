@@ -7,6 +7,7 @@ import time
 import webbrowser # open browser
 import time
 import os # to remove created audio files
+import requests
 
 class person:
     name = ''
@@ -73,8 +74,9 @@ def respond(voice_data):
         speak(ctime())
 
     # 5: search google
-    if there_exists(["search"]) and 'youtube' not in voice_data:
-        search_term = record_audio('What do you want to find?')
+    if there_exists(["search for"]) and 'youtube' not in voice_data:
+        #search_term = record_audio('What do you want to find?')
+        search_term = voice_data.split("for")[-1]
         url = f"https://google.com/search?q={search_term}"
         webbrowser.get().open(url)
         speak(f'Here is what I found for {search_term} on google')
@@ -87,7 +89,7 @@ def respond(voice_data):
         speak(f'Here is what I found for {search_term} on youtube')
 
     # 8: toss a coin
-    if there_exists(["toss", "flip", "coin"]):
+    if there_exists(["flip coin"]):
         moves = ["head", "tails"]
         cmove = random.choice(moves)
         speak("The computer chose " + cmove)
@@ -101,7 +103,7 @@ def respond(voice_data):
     # 10: find location
     if there_exists(["find location"]):
         location = record_audio('What is the location?')
-        url = 'https://www.google.nl/maps/place/' + location
+        url = 'https://google.nl/maps/place/' + location + '/&amp;'
         webbrowser.get().open(url)
         speak('Here is the location of ' + location)
 
@@ -111,6 +113,17 @@ def respond(voice_data):
         speak("you destroyed me")
         exit()
 
+    if there_exists(["what weather", "what about weather", "weather"]):
+        try:
+            params = {'q': 'Kiev', 'units': 'metric', 'lang': 'en', 'appid': '208efe731338ff247c6843161cc807be'}
+            response = requests.get(f'https://api.openweathermap.org/data/2.5/weather', params=params)
+            if not response:
+                raise
+            w = response.json()
+            speak(f"On the street {w['weather'][0]['description']} {round(w['main']['temp'])} degrees")
+
+        except:
+            speak('Произошла ошибка при попытке запроса к ресурсу API, проверь код')
 
 time.sleep(1)
 

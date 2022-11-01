@@ -38,7 +38,7 @@ def record_audio(ask=''):
 
 # get string and make a audio file to be played
 def speak(audio_string):
-    tts = gTTS(text=audio_string, lang='en-GB') # text to speech(voice)
+    tts = gTTS(text=audio_string, lang='en') # text to speech(voice)
     r = random.randint(1,20000000)
     audio_file = 'audio' + str(r) + '.mp3'
     tts.save(audio_file) # save as mp3
@@ -121,8 +121,9 @@ def respond(voice_data):
         except:
             speak('Error with API')
 
-    #schedule for group in kpi
-    if there_exists(["show my schedule", "my schedule"]):
+    # 12:schedule for group in kpi
+    if there_exists(["show my schedule", "my schedule", "my timetable"]):
+         ticket = ''
          group = record_audio('What a group')
          group = "".join(group.rsplit())
          groups = {"po11": "744888e7-4f92-46ba-9330-ac56dfcfb65b", "pk11": "cdf72602-9bc3-46ee-b7f0-048b51def7c5",

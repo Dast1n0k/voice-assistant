@@ -109,16 +109,17 @@ def respond(voice_data):
 
     # 11: weather
     if there_exists(["what weather", "what about weather", "weather"]):
+        city = record_audio('Weather in which city?')
         try:
-            params = {'q': 'Kiev', 'units': 'metric', 'lang': 'en', 'appid': '208efe731338ff247c6843161cc807be'}
+            params = {'q': city, 'units': 'metric', 'lang': 'en', 'appid': '208efe731338ff247c6843161cc807be'}
             response = requests.get(f'https://api.openweathermap.org/data/2.5/weather', params=params)
             if not response:
                 raise
             w = response.json()
-            speak(f"On the street {w['weather'][0]['description']} {round(w['main']['temp'])} degrees")
+            speak(f"In city {city} {w['weather'][0]['description']} {round(w['main']['temp'])} degrees")
 
         except:
-            speak('Произошла ошибка при попытке запроса к ресурсу API, проверь код')
+            speak('Error with API')
 
     # exit
     if there_exists(["exit", "quit", "goodbye", "bye"]):

@@ -3,7 +3,6 @@ import playsound # to play an audio file
 from gtts import gTTS # google text to speech
 import random
 from time import ctime # get time details
-import time
 import webbrowser # open browser
 import time
 import os # to remove created audio files
@@ -26,6 +25,7 @@ def record_audio(ask=''):
         if ask:
             speak(ask)
         audio = r.listen(source)  # listen for the audio via source
+        print("Done Listening")
         voice_data = ''
         try:
             voice_data = r.recognize_google(audio)  # convert audio to text
@@ -103,7 +103,7 @@ def respond(voice_data):
     # 10: find location
     if there_exists(["find location"]):
         location = record_audio('What is the location?')
-        url = 'https://google.nl/maps/place/' + location + '/&amp;'
+        url = 'https://www.google.com.ua/maps/place/' + location + '/&amp;'
         webbrowser.get().open(url)
         speak('Here is the location of ' + location)
 
@@ -120,6 +120,13 @@ def respond(voice_data):
 
         except:
             speak('Error with API')
+
+    #schedule for group in kpi
+    # if there_exists(["show my schedule"]):
+    #     group = record_audio('What a group')
+    #     url = "https://schedule.kpi.ua/?groupId=" + group
+    #     webbrowser.get().open(url)
+    #     speak("Don't be late for the first lesson")
 
     # exit
     if there_exists(["exit", "quit", "goodbye", "bye"]):

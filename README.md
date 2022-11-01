@@ -8,8 +8,6 @@ pip install pyaudio
 
 pip install playsound==1.2.2
 
-pip install PyObjC
-
 # Voice Commands (We will add more commands in the future)
 
 1.What is your name?

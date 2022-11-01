@@ -3,6 +3,7 @@ import playsound # to play an audio file
 from gtts import gTTS # google text to speech
 import random
 from time import ctime # get time details
+import time
 import webbrowser # open browser
 import time
 import os # to remove created audio files
@@ -69,14 +70,7 @@ def respond(voice_data):
 
     # 4: time
     if there_exists(["what's the time","tell me the time","what time is it"]):
-        time = ctime().split(" ")[3].split(":")[0:2]
-        if time[0] == "00":
-            hours = '12'
-        else:
-            hours = time[0]
-        minutes = time[1]
-        time = f'{hours} {minutes}'
-        speak(time)
+        speak(ctime())
 
     # 5: search google
     if there_exists(["search for"]) and 'youtube' not in voice_data:

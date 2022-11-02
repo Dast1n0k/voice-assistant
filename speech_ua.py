@@ -7,6 +7,7 @@ import webbrowser # open browser
 import time
 import os # to remove created audio files
 import requests
+from docx import Document
 
 class person:
     name = ''
@@ -140,6 +141,19 @@ def respond(voice_data):
         webbrowser.get().open(url)
         speak("Не спізнюйся на першу пару!")
 
+    # 13:create word file
+    if there_exists(["створи файл", "створи ворд файл", "файл", "створи"]):
+        file_name = record_audio("Як ви хочете назвати файл?")
+        word_file = Document()
+        word_file.save(file_name + ".docx")
+        speak(f"Файл під назвою {file_name} був створений")
+
+    # 14: translate word
+    if there_exists(["переклади слово", "переклади слова"]):
+        word = record_audio('Яке слово ви хочете перекласти?')
+        url = f'https://translate.google.com/?hl=ru&sl=uk&tl=en&text={word}&op=translate'
+        webbrowser.get().open(url)
+        speak('Перекладено' + word + 'на англійську мову')
     # exit
     if there_exists(["вихід", "закрийся", "бувай", "щасливо"]):
         byeings = [f"ти мене знищуєш {person_obj.name}", f"ти мене вбиваєш {person_obj.name}",

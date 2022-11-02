@@ -7,9 +7,10 @@ import webbrowser # open browser
 import time
 import os # to remove created audio files
 import requests
-from docx import Document
+import aspose.words as aw
 from parser_news import parser_news
 from googletrans import Translator
+
 
 class person:
     name = ''
@@ -147,7 +148,7 @@ def respond(voice_data):
     # 13:create word file
     if there_exists(["створи файл", "створи ворд файл", "файл", "створи"]):
         file_name = record_audio("Як ви хочете назвати файл?")
-        word_file = Document()
+        word_file = aw.Document()
         word_file.save(file_name + ".docx")
         speak(f"Файл під назвою {file_name} був створений")
 

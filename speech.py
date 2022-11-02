@@ -7,7 +7,7 @@ import webbrowser # open browser
 import time
 import os # to remove created audio files
 import requests
-from docx import Document
+import aspose.words as aw
 from parser_news import parser_news
 
 class person:
@@ -146,7 +146,7 @@ def respond(voice_data):
     # 13:create word file
     if there_exists(["build", "create"]):
         file_name = record_audio("What's the docx file name?")
-        word_file = Document()
+        word_file = aw.Document()
         word_file.save(file_name + ".docx")
         speak(f"File with name{file_name} created")
 

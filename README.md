@@ -6,6 +6,8 @@ pip install gtts
 
 pip install playsound==1.2.2
 
+pip install python-docx
+
 # Voice Commands (We will add more commands in the future)
 
 1.What is your name?

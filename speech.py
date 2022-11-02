@@ -7,6 +7,7 @@ import webbrowser # open browser
 import time
 import os # to remove created audio files
 import requests
+from docx import Document
 
 class person:
     name = ''
@@ -141,6 +142,12 @@ def respond(voice_data):
          url = "https://schedule.kpi.ua/?groupId=" + ticket
          webbrowser.get().open(url)
          speak("Don't be late for the first lesson")
+
+    # 13:create word file
+    #if there_exists(["build"]):
+    #    word_file = Document()
+    #    file_name = record_audio("What's the docx file name?")
+    #    word_file.save(file_name + ".docx")
 
     # exit
     if there_exists(["exit", "quit", "goodbye", "bye", "good bye", "close"]):

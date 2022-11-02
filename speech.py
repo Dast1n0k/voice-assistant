@@ -8,6 +8,7 @@ import time
 import os # to remove created audio files
 import requests
 from docx import Document
+from parser_news import parser_news
 
 class person:
     name = ''
@@ -147,6 +148,13 @@ def respond(voice_data):
         word_file = Document()
         word_file.save(file_name + ".docx")
         speak(f"File with name{file_name} created")
+
+    # 14: translate word
+    if there_exists(["translate", "translate word", "translator"]):
+        word = record_audio('What word?')
+        url = f'https://translate.google.com/?hl=en&sl=en&tl=uk&text={word}&op=translate'
+        webbrowser.get().open(url)
+        speak('Translate' + word + 'to ukrainian')
 
     # exit
     if there_exists(["exit", "quit", "goodbye", "bye", "good bye", "close"]):

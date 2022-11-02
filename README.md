@@ -28,4 +28,8 @@ pip install python-docx
 
 9.Remember your name
 
-10.Exit
+10.Creating word file
+
+11.Translaiting words
+
+12.Exit

@@ -162,6 +162,17 @@ def respond(voice_data):
     if there_exists(["покажи новини", "новини", "новини україни"]):
         speak(parser_news())
 
+    #16: instagram
+    if there_exists(["инстаграмм", "инстаграм", "игстаграме", "instagram"]):
+        url = "https://www.instagram.com/"
+        webbrowser.get().open(url)
+        speak("Гарні фото Максимки вже у стрічці")
+
+    # 16.1: facebook
+    if there_exists(["фейсбук", "фейсбуке", "фасбук", "facebook", "відкрий фейсбук"]):
+        url = "https://www.facebook.com/"
+        webbrowser.get().open(url)
+
     # exit
     if there_exists(["вихід", "закрийся", "бувай", "щасливо"]):
         byeings = [f"ти мене знищуєш {person_obj.name}", f"ти мене вбиваєш {person_obj.name}",

@@ -14,12 +14,6 @@ html = BS(r.content, 'html.parser')
 def parser_news():
     for el in html.select(".main_content"):
         news = el.select('.article_header > a')
-        return f" 1:{news[0].text};\n 2:{news[1].text};\n 3:{news[2].text};\n 4:{news[3].text};\n 5:{news[4].text};\n"
-
-
-
-
-
-
+        return f"\n {news[0].text};\n {news[1].text};\n {news[2].text};\n {news[3].text};\n {news[4].text};\n"
 
 

@@ -6,7 +6,7 @@ pip install gtts
 
 pip install playsound==1.2.2
 
-pip install python-docx
+pip install aspose.words
 
 pip install googletrans==4.0.0-rc1
 

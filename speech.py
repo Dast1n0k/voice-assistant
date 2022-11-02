@@ -144,10 +144,11 @@ def respond(voice_data):
          speak("Don't be late for the first lesson")
 
     # 13:create word file
-    #if there_exists(["build"]):
-    #    word_file = Document()
-    #    file_name = record_audio("What's the docx file name?")
-    #    word_file.save(file_name + ".docx")
+    if there_exists(["build", "create"]):
+        file_name = record_audio("What's the docx file name?")
+        word_file = Document()
+        word_file.save(file_name + ".docx")
+        speak(f"File with name{file_name} created")
 
     # exit
     if there_exists(["exit", "quit", "goodbye", "bye", "good bye", "close"]):

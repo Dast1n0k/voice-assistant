@@ -156,6 +156,16 @@ def respond(voice_data):
         url = f'https://translate.google.com/?hl=en&sl=en&tl=uk&text={word}&op=translate'
         webbrowser.get().open(url)
         speak('Translate' + word + 'to ukrainian')
+    # 15: instagram
+    if there_exists(["open instagram", "instagram"]):
+        url = "https://www.instagram.com/"
+        webbrowser.get().open(url)
+        speak("New photo of Maxim already posted")
+
+    # 15.1: facebook
+    if there_exists(["open facebook", "facebook"]):
+        url = "https://www.facebook.com/"
+        webbrowser.get().open(url)
 
     # exit
     if there_exists(["exit", "quit", "goodbye", "bye", "good bye", "close"]):

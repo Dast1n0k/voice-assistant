@@ -8,7 +8,7 @@ import time
 import os # to remove created audio files
 import requests
 from docx import Document
-# from parser_news import parser_news
+from parser_news import parser_news
 from googletrans import Translator
 
 class person:

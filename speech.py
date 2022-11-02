@@ -21,6 +21,7 @@ def there_exists(terms):
             return True
 
 r = sr.Recognizer() # initialise a recogniser
+
 # listen for audio and convert it to text:
 def record_audio(ask=''):
     with sr.Microphone() as source: # microphone as source
@@ -44,8 +45,8 @@ def speak(audio_string):
     r = random.randint(1,20000000)
     audio_file = 'audio' + str(r) + '.mp3'
     tts.save(audio_file) # save as mp3
-    playsound.playsound(audio_file) # play the audio file
     print(f"Lefty: {audio_string}") # print what app said
+    playsound.playsound(audio_file) # play the audio file
     os.remove(audio_file) # remove audio file
 
 def respond(voice_data):

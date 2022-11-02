@@ -8,7 +8,8 @@ import time
 import os # to remove created audio files
 import requests
 from docx import Document
-from parser_news import parser_news
+# from parser_news import parser_news
+from googletrans import Translator
 
 class person:
     name = ''
@@ -151,11 +152,11 @@ def respond(voice_data):
         speak(f"Файл під назвою {file_name} був створений")
 
     # 14: translate word
-    if there_exists(["переклади слово", "переклади слова"]):
-        word = record_audio('Яке слово ви хочете перекласти?')
-        url = f'https://translate.google.com/?hl=ru&sl=uk&tl=en&text={word}&op=translate'
-        webbrowser.get().open(url)
-        speak('Перекладено' + word + 'на англійську мову')
+    if there_exists(["переклади слово", "переклади слова", "переклад слова"]):
+        word1 = record_audio('Яке слово ви хочете перекласти?')
+        translator = Translator()
+        word2 = translator.translate(word1, dest = 'en').text
+        speak(word1 + ' переводиться на англійську як ' + word2)
 
     # 15: news
     if there_exists(["покажи новини", "новини", "новини україни"]):

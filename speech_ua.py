@@ -8,6 +8,7 @@ import time
 import os # to remove created audio files
 import requests
 from docx import Document
+from parser_news import parser_news
 
 class person:
     name = ''
@@ -43,8 +44,9 @@ def speak(audio_string):
     r = random.randint(1,20000000)
     audio_file = 'audio' + str(r) + '.mp3'
     tts.save(audio_file) # save as mp3
+    print(f"Лівобережний: {audio_string}")
     playsound.playsound(audio_file) # play the audio file
-    print(f"Лівобережний: {audio_string}") # print what app said
+    # print(f"Лівобережний: {audio_string}") # print what app said
     os.remove(audio_file) # remove audio file
 
 def respond(voice_data):
@@ -154,6 +156,11 @@ def respond(voice_data):
         url = f'https://translate.google.com/?hl=ru&sl=uk&tl=en&text={word}&op=translate'
         webbrowser.get().open(url)
         speak('Перекладено' + word + 'на англійську мову')
+
+    # 15: news
+    if there_exists(["покажи новини", "новини", "новини україни"]):
+        speak(parser_news())
+
     # exit
     if there_exists(["вихід", "закрийся", "бувай", "щасливо"]):
         byeings = [f"ти мене знищуєш {person_obj.name}", f"ти мене вбиваєш {person_obj.name}",

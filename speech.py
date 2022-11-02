@@ -127,21 +127,19 @@ def respond(voice_data):
 
     # 12:schedule for group in kpi
     if there_exists(["show my schedule", "my schedule", "my timetable"]):
-         ticket = ""
-         group = record_audio('What a group')
-         group = group.rsplit()
-         print(group[0].find("."))
-         print(group)
-         group = "".join(group)
-         groups = {"po11": "744888e7-4f92-46ba-9330-ac56dfcfb65b", "pk11": "cdf72602-9bc3-46ee-b7f0-048b51def7c5",
-                   "pg11": "b4f442dc-8641-4045-a740-b1fc038909a1", "pm11": "d41dad85-dff4-446b-965c-ca8f5547a014",
-                   "pb11": "a6c846da-0241-48f3-92c8-44d5aeef7aea", "pb12": "60dffbed-e1ef-494d-a735-7a5e1cef3c52"}
-         for key, value in groups.items():
+        ticket = ""
+        group = record_audio('What a group').rsplit()
+        group[0] = group[0]. replace(".", "")
+        group = "".join(group)
+        groups = {"po11": "744888e7-4f92-46ba-9330-ac56dfcfb65b", "pk11": "cdf72602-9bc3-46ee-b7f0-048b51def7c5",
+                  "pg11": "b4f442dc-8641-4045-a740-b1fc038909a1", "pm11": "d41dad85-dff4-446b-965c-ca8f5547a014",
+                  "pb11": "a6c846da-0241-48f3-92c8-44d5aeef7aea", "pb12": "60dffbed-e1ef-494d-a735-7a5e1cef3c52"}
+        for key, value in groups.items():
             if key == group:
                 ticket = value
-         url = "https://schedule.kpi.ua/?groupId=" + ticket
-         webbrowser.get().open(url)
-         speak("Don't be late for the first lesson")
+        url = "https://schedule.kpi.ua/?groupId=" + ticket
+        webbrowser.get().open(url)
+        speak("Don't be late for the first lesson")
 
     # 13:create word file
     if there_exists(["build", "create"]):

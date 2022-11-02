@@ -8,6 +8,8 @@ pip install playsound==1.2.2
 
 pip install python-docx
 
+pip install googletrans==4.0.0-rc1
+
 # Voice Commands (We will add more commands in the future)
 
 1.What is your name?
@@ -30,6 +32,6 @@ pip install python-docx
 
 10.Creating word file
 
-11.Translaiting words
+11.Translate words
 
 12.Exit

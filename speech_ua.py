@@ -9,6 +9,9 @@ import os # to remove created audio files
 import requests
 from docx import Document
 from parser_news import parser_news
+from googletrans import Translator
+
+translator = Translator()
 
 class person:
     name = ''
@@ -152,10 +155,13 @@ def respond(voice_data):
 
     # 14: translate word
     if there_exists(["переклади слово", "переклади слова"]):
-        word = record_audio('Яке слово ви хочете перекласти?')
-        url = f'https://translate.google.com/?hl=ru&sl=uk&tl=en&text={word}&op=translate'
-        webbrowser.get().open(url)
-        speak('Перекладено' + word + 'на англійську мову')
+        # word = record_audio('Яке слово ви хочете перекласти?')
+        # url = f'https://translate.google.com/?hl=ru&sl=uk&tl=en&text={word}&op=translate'
+        # webbrowser.get().open(url)
+        # speak('Перекладено' + word + 'на англійську мову')
+        print(translator.detect('apple'))
+        # a = translator.translate(word, dest='en')
+        # print(a.text)
 
     # 15: news
     if there_exists(["покажи новини", "новини", "новини україни"]):

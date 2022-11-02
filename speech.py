@@ -103,9 +103,12 @@ def respond(voice_data):
     # 10: find location
     if there_exists(["find location"]):
         location = record_audio('What is the location?')
-        url = 'https://www.google.com.ua/maps/place/' + location + '/&amp;'
-        webbrowser.get().open(url)
-        speak('Here is the location of ' + location)
+        if location == 'moscow':
+            os.startfile(r'image/1.jpg')
+        else:
+            url = 'https://www.google.com.ua/maps/place/' + location + '/&amp;'
+            webbrowser.get().open(url)
+            speak('Here is the location of ' + location)
 
     # 11: weather
     if there_exists(["what weather", "what about weather", "weather"]):

@@ -105,7 +105,7 @@ def respond(voice_data):
     if there_exists(["find location"]):
         location = record_audio('What is the location?')
         if location == 'moscow':
-            os.startfile(r'image/1.jpg')
+            os.startfile(r'image\1.jpg')
         else:
             url = 'https://www.google.com.ua/maps/place/' + location + '/&amp;'
             webbrowser.get().open(url)

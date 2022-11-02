@@ -10,6 +10,8 @@ pip install python-docx
 
 pip install googletrans==4.0.0-rc1
 
+pip install beautifulsoup4
+
 # Voice Commands (We will add more commands in the future)
 
 1.What is your name?

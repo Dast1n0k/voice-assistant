@@ -11,12 +11,14 @@ import aspose.words as aw
 from parser_news import parser_news
 from googletrans import Translator
 import face_detection
+import base
 
 class person:
     name = ''
     def setName(self, name):
         self.name = name
 
+# Для перебору даних
 def there_exists(terms):
     for term in terms:
         if term in voice_data:
@@ -75,7 +77,7 @@ def respond(voice_data):
         speak(f"В мене все добре, дякую що спитав {person_obj.name}")
 
     # 4: time
-    if there_exists(["котра година","скажи мені годину","че по времені"]):
+    if there_exists(base.commands['time']):
         speak(ctime())
 
     # 5: search google
@@ -112,7 +114,7 @@ def respond(voice_data):
         speak('місцезнаходження ' + location + 'знайдено')
 
     # 11: weather
-    if there_exists(["яка погода", "що за вікном", "погода"]):
+    if there_exists(base.commands['weather']):
         city = record_audio('погода в якому місті?')
         try:
             params = {'q': city, 'units': 'metric', 'lang': 'uk', 'appid': '208efe731338ff247c6843161cc807be'}
@@ -120,7 +122,7 @@ def respond(voice_data):
             if not response:
                 raise
             w = response.json()
-            speak(f"В місті {city} {w['weather'][0]['description']} {round(w['main']['temp'])} градусів")
+            speak(f"В місті {city} {w['weather'][0]['description']} температура: {round(w['main']['temp'])} градусів")
 
         except:
             speak('помилка API')

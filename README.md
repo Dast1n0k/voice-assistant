@@ -12,6 +12,8 @@ pip install googletrans==4.0.0-rc1
 
 pip install beautifulsoup4
 
+pip install opencv-python
+
 # Voice Commands (We will add more commands in the future)
 
 1.What is your name?
@@ -42,4 +44,6 @@ pip install beautifulsoup4
 
 14.Timer
 
-15.Exit
+15.Face detection
+
+16.Exit

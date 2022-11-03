@@ -174,6 +174,16 @@ def respond(voice_data):
         url = "https://www.facebook.com/"
         webbrowser.get().open(url)
 
+    # 17: timer
+    if there_exists(["таймер", "запусти таймер", "включи таймер"]):
+        timer_time = record_audio('На скiльки секунд?')
+        if timer_time.isdigit() == True:
+            speak('таймер запущений')
+            time.sleep(int(timer_time))
+            speak('таймер закiнчив працювати')
+        else:
+            pass
+
     # exit
     if there_exists(["вихід", "закрийся", "бувай", "щасливо"]):
         byeings = [f"ти мене знищуєш {person_obj.name}", f"ти мене вбиваєш {person_obj.name}",

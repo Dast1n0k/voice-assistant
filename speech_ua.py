@@ -10,7 +10,7 @@ import requests
 import aspose.words as aw
 from parser_news import parser_news
 from googletrans import Translator
-
+import face_detection
 
 class person:
     name = ''
@@ -183,6 +183,12 @@ def respond(voice_data):
             speak('таймер закiнчив працювати')
         else:
             pass
+
+    # 18: face detection
+    if there_exists(["відкрити камеру", "камера", "де я"]):
+        speak("Пошук обличчя. Натисни q щоб закрити камеру")
+        print("Пошук обличчя.....")
+        face_detection.detect_face()
 
     # exit
     if there_exists(["вихід", "закрийся", "бувай", "щасливо"]):

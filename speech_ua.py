@@ -57,13 +57,13 @@ def speak(audio_string):
 
 def respond(voice_data):
     # 1: greeting
-    if there_exists(['привіт','прив','добрий день', 'добрий вечір', 'добрий ранок']):
+    if there_exists(base.commands['greetings']):
         greetings = [f"Привіт, як я можу допомогти тобі {person_obj.name}", f"Привіт, як ти чувак {person_obj.name}", f"Я слухаю {person_obj.name}", f"Як я можу допомогти тобі {person_obj.name}", f"Привіт {person_obj.name}"]
         greet = greetings[random.randint(0,len(greetings)-1)]
         speak(greet)
 
     # 2: name
-    if there_exists(["як тебе звати","як тебе називати","який в тебе всевдонім"]):
+    if there_exists(base.commands['name']):
         if person_obj.name:
             speak("Мене звати Лівобережний")
         else:
@@ -75,7 +75,7 @@ def respond(voice_data):
         person_obj.setName(person_name) # remember name in person object
 
     # 3: greeting
-    if there_exists(["як ти","що робиш"]):
+    if there_exists(base.commands['how_are_you']):
         speak(f"В мене все добре, дякую що спитав {person_obj.name}")
 
     # 4: time
@@ -83,33 +83,33 @@ def respond(voice_data):
         speak(ctime())
 
     # 5: search google
-    if there_exists(["знайти", "найди", "пошукай", "окей google", "okey google"]) and 'youtube' not in voice_data:
+    if there_exists(base.commands['google_search']) and 'youtube' not in voice_data:
         search_term = record_audio('Що ти хочешь знайти?')
         url = f"https://google.com/search?q={search_term}"
         webbrowser.get().open(url)
         speak(f'Ось що я знайшов в інтернеті за запитом {search_term} в google')
 
     # 6: search youtube
-    if there_exists(["youtube"]):
+    if there_exists(base.commands['youtube_search']):
         search_term = record_audio('What name of video?')
         url = f"https://www.youtube.com/results?search_query={search_term}"
         webbrowser.get().open(url)
         speak(f'Ось що я знайшов за запитом {search_term} в youtube')
 
     # 8: toss a coin
-    if there_exists(["кинь монетку"]):
+    if there_exists(base.commands['flip_coin']):
         moves = ["тризуб", "дядько"]
         cmove = random.choice(moves)
         speak("Комп'ютер вибрав " + cmove)
 
     # 9: current location
-    if there_exists(["де я знаходжуся", "моє місцезнаходження"]):
+    if there_exists(base.commands['current_location']):
         url = "https://www.google.com/maps/search/Where+am+I+?/"
         webbrowser.get().open(url)
         speak("Ти знаходишся десь поблизу цього місця")
 
     # 10: find location
-    if there_exists(["знайди місце", "відкрий карту"]):
+    if there_exists(base.commands['find_location']):
         location = record_audio('яке місце ви бажаєте знайти?')
         url = 'https://www.google.com.ua/maps/place/' + location + '/&amp;'
         webbrowser.get().open(url)
@@ -130,7 +130,7 @@ def respond(voice_data):
             speak('помилка API')
 
     # 12:schedule for group in kpi
-    if there_exists(["покажи мій розклад", "мій розклад", "покажи розклад"]):
+    if there_exists(base.commands['schedule']):
         ticket = ''
         group = record_audio('Яка група?')
         time.sleep(2)
@@ -150,36 +150,36 @@ def respond(voice_data):
         speak("Не спізнюйся на першу пару!")
 
     # 13:create word file
-    if there_exists(["створи файл", "створи ворд файл", "файл", "створи"]):
+    if there_exists(base.commands['create_wordfile']):
         file_name = record_audio("Як ви хочете назвати файл?")
         word_file = aw.Document()
         word_file.save(file_name + ".docx")
         speak(f"Файл під назвою {file_name} був створений")
 
     # 14: translate word
-    if there_exists(["переклади слово", "переклади слова", "переклад слова"]):
+    if there_exists(base.commands['translate']):
         word1 = record_audio('Яке слово ви хочете перекласти?')
         translator = Translator()
         word2 = translator.translate(word1, dest = 'en').text
         speak(word1 + ' переводиться на англійську як ' + word2)
 
     # 15: news
-    if there_exists(["покажи новини", "новини", "новини україни"]):
+    if there_exists(base.commands['news']):
         speak(parser_news())
 
     #16: instagram
-    if there_exists(["инстаграмм", "инстаграм", "игстаграме", "instagram"]):
+    if there_exists(base.commands['instagram']):
         url = "https://www.instagram.com/"
         webbrowser.get().open(url)
         speak("Гарні фото Максимки вже у стрічці")
 
     # 16.1: facebook
-    if there_exists(["фейсбук", "фейсбуке", "фасбук", "facebook", "відкрий фейсбук"]):
+    if there_exists(base.commands['facebook']):
         url = "https://www.facebook.com/"
         webbrowser.get().open(url)
 
     # 17: timer
-    if there_exists(["таймер", "запусти таймер", "включи таймер"]):
+    if there_exists(base.commands['timer']):
         timer_time = record_audio('На скiльки секунд?')
         if timer_time.isdigit() == True:
             speak('Таймер запущений')

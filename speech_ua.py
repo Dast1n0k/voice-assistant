@@ -1,17 +1,19 @@
-import speech_recognition as sr # recognise speech
-import playsound # to play an audio file
-from gtts import gTTS # google text to speech
-import random
-from time import ctime # get time details
-import webbrowser # open browser
-import time
-import os # to remove created audio files
-import requests
-import aspose.words as aw
-from parser_news import parser_news
 from googletrans import Translator
-import face_detection
+from gtts import gTTS # google text to speech
+from time import ctime # get time details
+
+import aspose.words as aw
+import os # to remove created audio files
+import playsound # to play an audio file
+import random
+import requests
+import speech_recognition as sr # recognise speech
+import time
+import webbrowser # open browser
+
+from parser_news import parser_news
 import base
+
 
 class person:
     name = ''
@@ -56,7 +58,7 @@ def speak(audio_string):
 def respond(voice_data):
     # 1: greeting
     if there_exists(['привіт','прив','добрий день', 'добрий вечір', 'добрий ранок']):
-        greetings = [f"привіт, як я можу допомогти тобі {person_obj.name}", f"привіт, як ти чувак {person_obj.name}", f"Я слухаю {person_obj.name}", f"як я можу допомогти тобі {person_obj.name}", f"привіт {person_obj.name}"]
+        greetings = [f"Привіт, як я можу допомогти тобі {person_obj.name}", f"Привіт, як ти чувак {person_obj.name}", f"Я слухаю {person_obj.name}", f"Як я можу допомогти тобі {person_obj.name}", f"Привіт {person_obj.name}"]
         greet = greetings[random.randint(0,len(greetings)-1)]
         speak(greet)
 
@@ -69,7 +71,7 @@ def respond(voice_data):
 
     if there_exists(["мене звати"]):
         person_name = voice_data.split("звати")[-1].strip()
-        speak(f"добре, я запам'ятав твоє ім'я {person_name}")
+        speak(f"Добре, я запам'ятав твоє ім'я {person_name}")
         person_obj.setName(person_name) # remember name in person object
 
     # 3: greeting
@@ -85,14 +87,14 @@ def respond(voice_data):
         search_term = record_audio('Що ти хочешь знайти?')
         url = f"https://google.com/search?q={search_term}"
         webbrowser.get().open(url)
-        speak(f'Вот що я знайщов в інтернеті за запитом {search_term} в google')
+        speak(f'Ось що я знайшов в інтернеті за запитом {search_term} в google')
 
     # 6: search youtube
     if there_exists(["youtube"]):
         search_term = record_audio('What name of video?')
         url = f"https://www.youtube.com/results?search_query={search_term}"
         webbrowser.get().open(url)
-        speak(f'Вот що я знайшов за запитом {search_term} в youtube')
+        speak(f'Ось що я знайшов за запитом {search_term} в youtube')
 
     # 8: toss a coin
     if there_exists(["кинь монетку"]):
@@ -104,14 +106,14 @@ def respond(voice_data):
     if there_exists(["де я знаходжуся", "моє місцезнаходження"]):
         url = "https://www.google.com/maps/search/Where+am+I+?/"
         webbrowser.get().open(url)
-        speak("ти знаходишся десь поблизу цього місця")
+        speak("Ти знаходишся десь поблизу цього місця")
 
     # 10: find location
     if there_exists(["знайди місце", "відкрий карту"]):
         location = record_audio('яке місце ви бажаєте знайти?')
         url = 'https://www.google.com.ua/maps/place/' + location + '/&amp;'
         webbrowser.get().open(url)
-        speak('місцезнаходження ' + location + 'знайдено')
+        speak('Місцезнаходження ' + location + 'знайдено')
 
     # 11: weather
     if there_exists(base.commands['weather']):
@@ -180,27 +182,20 @@ def respond(voice_data):
     if there_exists(["таймер", "запусти таймер", "включи таймер"]):
         timer_time = record_audio('На скiльки секунд?')
         if timer_time.isdigit() == True:
-            speak('таймер запущений')
+            speak('Таймер запущений')
             time.sleep(int(timer_time))
-            speak('таймер закiнчив працювати')
+            speak('Таймер закiнчив працювати')
         else:
             pass
 
-    # 18: face detection
-    if there_exists(["відкрити камеру", "камера", "де я"]):
-        speak("Пошук обличчя. Натисни q щоб закрити камеру")
-        print("Пошук обличчя.....")
-        face_detection.detect_face()
-
     # exit
     if there_exists(["вихід", "закрийся", "бувай", "щасливо"]):
-        byeings = [f"ти мене знищуєш {person_obj.name}", f"ти мене вбиваєш {person_obj.name}",
-                   f"перехожу в оффлайн {person_obj.name}", f"Вдалого дня {person_obj.name}",
-                   f"бувай {person_obj.name}"]
+        byeings = [f"Ти мене знищуєш {person_obj.name}", f"Ти мене вбиваєш {person_obj.name}",
+                   f"Перехожу в оффлайн {person_obj.name}", f"Вдалого дня {person_obj.name}",
+                   f"Бувай {person_obj.name}"]
         bye = byeings[random.randint(0, len(byeings) - 1)]
         speak(bye)
         exit()
-
 
 time.sleep(1)
 

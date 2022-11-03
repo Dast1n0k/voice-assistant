@@ -36,4 +36,10 @@ pip install beautifulsoup4
 
 11.Translate words
 
-12.Exit
+12.News
+
+13.Opening of social networks 
+
+14.Timer
+
+15.Exit
